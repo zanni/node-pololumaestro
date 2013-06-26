@@ -7,6 +7,7 @@ var maestro = function(comport, callback, debug) {
 		baudrate: 115200
 	});
 	var self = this;
+	self.connected = false
 	if(debug) DEBUG = debug || false
 	this.serialPort.on("open", function() {
 		self.connected = true;
