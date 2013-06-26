@@ -2,17 +2,21 @@ var SerialPort = require("serialport").SerialPort
 
 var DEBUG = false;
 
-var maestro = function(comport) {
+var maestro = function(comport, callback, debug) {
 	this.serialPort = new SerialPort(comport, {
 		baudrate: 115200
 	});
 	var self = this;
+	if(debug) DEBUG = debug || false
 	this.serialPort.on("open", function() {
 		self.connected = true;
 		if (DEBUG) {
 			console.log("pololu-maestro: Connected");
 		}
+		if(callback && typeof callback == "function") callback();
 	});
+	
+	return self;
 }
 
 maestro.prototype.setPWM = function(channel,pwm) {
